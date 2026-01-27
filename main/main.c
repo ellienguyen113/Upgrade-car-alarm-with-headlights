@@ -171,7 +171,6 @@ void app_main(void)
 
         if (engine_running && (!d_seat || !p_seat || !d_belt || !p_belt)){
             gpio_set_level(ENGINE_LED,1);
-        }
         
             //HEADLIGHTS CONTROL
 
