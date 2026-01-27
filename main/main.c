@@ -29,10 +29,7 @@ void app_main(void)
 
     int pot_bits;
     int light_bits;
-    int pot_mV;
-    int light_mV;
-    int time_ms;
-   
+  
     adc_oneshot_unit_init_cfg_t init_config1 = {
         .unit_id = ADC_UNIT_1,
     };
@@ -107,6 +104,13 @@ void app_main(void)
         p_belt = (gpio_get_level(P_SEATBELT) == 0);
         ignit = (gpio_get_level(IGNITION) == 0);
 
+        adc_oneshot_read
+        (adc1_handle, POT_CHANNEL, &pot_bits);
+        
+        adc_oneshot_read
+        (adc1_handle, LIGHT_CHANNEL,&light_bits);
+
+
         if (d_seat && welcome_not_shown) {
              printf("Welcome to enhanced alarm system model 218-W26\n");
              welcome_not_shown = false;
@@ -135,20 +139,9 @@ void app_main(void)
                 gpio_set_level(BLUE,1);
                 blue = true;
                 printf("Engine started\n");
-
-                adc_oneshot_read
-                (adc1_handle, POT_CHANNEL, &pot_bits);
-                
-                adc_cali_raw_to_voltage
-                (adc1_handle, pot_bits, &pot_mV);
-
-                adc_oneshot_read
-                (adc1_handle, LIGHT_CHANNEL,&light_bits);
-                
-                adc_cali_raw_to_voltage
-                (adc1_handle, light_bits, &light_mV);
+              
                 }
-                int threshold = 1.5;
+
 
                 if (pot_mV > threshold){
                     gpio_set_level(LAMP,1);
