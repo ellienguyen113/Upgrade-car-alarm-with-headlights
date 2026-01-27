@@ -167,7 +167,7 @@ void app_main(void)
                         gpio_set_level (LAMP,1);
                   
                     }
-                }
+            
 
                 }
                 if (ignit){
@@ -201,7 +201,6 @@ void app_main(void)
         //Small delay to limit polling rate
         delay_ms(25);
     }
-
 }
 
 void delay_ms(int t) {
