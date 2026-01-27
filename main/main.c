@@ -22,6 +22,10 @@
 #define IGNITION GPIO_NUM_12
 #define LAMP GPIO_NUM_13
 
+#define THRESHOLD 1500
+#define DAYLIGHT 1200
+#define DUSK 1700
+
 void delay_ms(int t);
 #define LOOP_DELAY_MS 25
 void app_main(void)
@@ -88,13 +92,12 @@ void app_main(void)
     bool d_belt, p_belt; // Seatbelt states
     bool ignit;          //Ignition button state
     bool green_enabled= false;  //Indicates ignition readiness
-    bool blue = false;   //Indicates engine running
+    bool engine_running = false;   //Indicates engine running
 
     bool headlight = false;   //
     bool daylight, dusk;
 
     bool welcome_not_shown = true;  //Ensures welcome message prints once
-    bool ignition_used = false;     //Prevents multiple ignition attempts
     bool lamp = false;
     while(1){
         //Read all inputs (active-low: pressed = 0)
@@ -120,7 +123,7 @@ void app_main(void)
         // - both seats are occupied
         // - both seatbelts are fastened
         // - ignition has not been used yet
-        if (d_seat && p_seat && d_belt && p_belt && !ignition_used ){
+        if (d_seat && p_seat && d_belt && p_belt ){
             gpio_set_level(GREEN,1);
             green_enabled = true;
         }
@@ -130,42 +133,38 @@ void app_main(void)
         }
 
         //Ignition pressed
-        if (ignit && !ignition_used){
-            ignition_used = true;
+        if (ignit && !engine_running){
 
             // Case 1: All safety conditions met
             if (green_enabled){
                 gpio_set_level(GREEN,0);
                 gpio_set_level(BLUE,1);
-                blue = true;
+                engine_running = true;
                 printf("Engine started\n");
               
                 }
 
-
-                if (pot_mV > threshold){
+                if (pot_bits > THRESHOLD){
                     gpio_set_level(LAMP,1);
                 }
-                if (pot_bits < threshold){
+                if (pot_bits < THRESHOLD){
                     gpio_set_level(LAMP,0);
                 }
                 
                 else{
-                    if (pot_bits > light_bits){
+                    if (light_bits > DAYLIGHT){
                         delay_ms (2);
                         gpio_set_level(LAMP, 0);
                     }
-                    if (headlight < light_bits){
+                    if (light_bits < DUSK){
                         delay_ms (1);
                         gpio_set_level (LAMP,1);
-                  
+                    else {}
                     }
-            
+                if (engine_running && ignit){
+                    gpio_set_level(BLUE,0);
 
-                }
-                if (ignit){
-                    blue = false;
-                }
+             
             }
             // Case 2: Safety conditions not met
             else {
@@ -184,12 +183,11 @@ void app_main(void)
                 }
                 if (!p_belt){
                     printf("Passenger's seatbelt not fastened\n");
-                ignit = gpio_set_level(IGNITION,1);
+                ignit = true;
                 }
+            
             }
-            if (blue && (!d_seat) + (!p_seat)+(!d_belt)+(!p_belt)){
-                blue = true;
-            }
+
         
         //Small delay to limit polling rate
         delay_ms(25);
