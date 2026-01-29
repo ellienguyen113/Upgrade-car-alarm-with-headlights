@@ -98,7 +98,7 @@ void app_main(void)
     bool d_seat, p_seat; // Seat occupancy states
     bool d_belt, p_belt; // Seatbelt states
 
-    bool ignit;                     //Ignition button state
+    bool ignit = false;                     //Ignition button state
     bool ignition_enabled= false;  //Indicates ignition readiness
     bool engine_running = false;   //Indicates engine running
 
@@ -122,42 +122,42 @@ void app_main(void)
         adc_oneshot_read
         (adc1_handle, LIGHT_CHANNEL,&light_bits);
 
-        if (d_seat && welcome_not_shown) {
-             printf("Welcome to enhanced alarm system model 218-W26\n");
-             welcome_not_shown = false;
-        }
-        // Ignition enabled
-        // Green LED is ON only if:
-        // - both seats are occupied
-        // - both seatbelts are fastened
-        // - ignition has not been used yet
-        if (d_seat && p_seat && d_belt && p_belt){
-            ignition_enabled = true;
-            if (!greenLEDon){
+        // STAGE 1: ENGINE NOT RUNNING
+        if (!engine_running){
+
+            //Headlights must always be OFF
+            gpio_set_level(LEFT_LAMP,0);
+            gpio_set_level(RIGHT_LAMP,0);
+
+            //Welcome message
+            if (d_seat && welcome_not_shown) {
+                printf("Welcome to enhanced alarm system model 218-W26\n");
+                welcome_not_shown = false;
+            }
+
+            // Ignition enabled
+            if (d_seat && p_seat && d_belt && p_belt){
+                ignition_enabled = true;
                 gpio_set_level(IGNITION_LED,1);
-                greenLEDon = true;
             }
-
-        }
-        else {
-            gpio_set_level(IGNITION_LED,0);
-            ignition_enabled = false;
-        }
-
-        //Ignition pressed
-        if (ignit && !engine_running){
-
-            // Case 1: All safety conditions met
-            if (ignition_enabled){
-                gpio_set_level(IGNITION_LED,0);
-                gpio_set_level(ENGINE_LED,1);
-                engine_running = true;
-                printf("Engine started\n");
-            }
-            // Case 2: Safety conditions not met
             else {
-                printf("Ignition inhibited\n");
-                gpio_set_level(BUZZER, 1);
+                ignition_enabled = false;
+                gpio_set_level(IGNITION_LED,0);
+            }
+
+            //Ignition pressed
+            if (ignit && !last_ignit){
+                // Case 1: All safety conditions met
+                if (ignition_enabled){
+                    engine_running = true;
+                    gpio_set_level(ENGINE_LED,1);
+                    gpio_set_level(IGNITION_LED,0);
+                    printf("Engine started\n");
+                }
+                // Case 2: Safety conditions not met
+                else {
+                    gpio_set_level(BUZZER, 1);
+                    printf("Ignition inhibited\n");
 
                 if (!d_seat){
                     printf("Driver seat not occupied\n");
@@ -177,34 +177,29 @@ void app_main(void)
                 //gpio_set_level(BUZZER,0);
             }
         }
-
-        if (engine_running && (!d_seat || !p_seat || !d_belt || !p_belt)){
-            gpio_set_level(ENGINE_LED,1);
-            
+    }
+    //STAGE 2: ENGINE RUNNING
+    else{   
             //STOP ENGINE
-            if (ignit && engine_running){
+            if (ignit && !last_ignit){
                 engine_running = false;
                 gpio_set_level(ENGINE_LED, 0);
                 printf("car stopped\n");
             }
 
-            //HEADLIGHTS CONTROL
-        if (pot_bits >= POT_ON) {
-            gpio_set_level(LEFT_LAMP, 1);
-            gpio_set_level(RIGHT_LAMP, 1);
-        }
-        else if (pot_bits <= POT_OFF) {
-            gpio_set_level(LEFT_LAMP, 0);
-            gpio_set_level(RIGHT_LAMP, 0);
-        }
+            //HEADLIGHTS SUBSYSTEM
+            if (pot_bits >= POT_ON) {
+                gpio_set_level(LEFT_LAMP, 1);
+                gpio_set_level(RIGHT_LAMP, 1);
             }
-        else{
+            else if (pot_bits <= POT_OFF) {
+                gpio_set_level(LEFT_LAMP, 0);
+                gpio_set_level(RIGHT_LAMP, 0);
+            }
+            
+            else{
                 //AUTO MODE
-                if (!engine_running){
-                    gpio_set_level(LEFT_LAMP, 0);
-                    gpio_set_level(RIGHT_LAMP, 0);
-                }
-                else if (light_bits > DAYLIGHT){
+                if (light_bits > DAYLIGHT){
                     vTaskDelay(2000/portTICK_PERIOD_MS);
                     gpio_set_level(LEFT_LAMP, 0);
                     gpio_set_level(RIGHT_LAMP, 0);
@@ -221,9 +216,8 @@ void app_main(void)
                     gpio_set_level (RIGHT_LAMP, prev_state);
                     }
                 }
+            }
+            last_ignit=ignit;
+            vTaskDelay(25/portTICK_PERIOD_MS);
         }
-
-        //Small delay to limit polling rate
-        vTaskDelay(25/portTICK_PERIOD_MS);
-    }
 
