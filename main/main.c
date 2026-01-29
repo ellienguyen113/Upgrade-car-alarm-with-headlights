@@ -106,7 +106,6 @@ void app_main(void)
     bool last_ignit = false;
  
     bool welcome_not_shown = true;  //Ensures welcome message prints once
-    bool greenLEDon = false;
 
     while(1){
         //Read all inputs (active-low: pressed = 0)
@@ -220,4 +219,5 @@ void app_main(void)
             last_ignit=ignit;
             vTaskDelay(25/portTICK_PERIOD_MS);
         }
+    }
 
