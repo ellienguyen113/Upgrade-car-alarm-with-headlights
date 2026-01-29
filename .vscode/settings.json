@@ -14,5 +14,7 @@
     "--background-index",
     "--query-driver=**",
     "--compile-commands-dir=c:\\Users\\admin\\esp\\Upgrade car alarm with headlights\\build"
-  ]
+  ],
+  "idf.flashType": "UART",
+  "idf.portWin": "COM7"
 }
