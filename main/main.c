@@ -108,6 +108,7 @@ void app_main(void)
     bool welcome_not_shown = true;  //Ensures welcome message prints once
 
     while(1){
+
         //Read all inputs (active-low: pressed = 0)
         d_seat = (gpio_get_level(D_SEAT) == 0);
         p_seat = (gpio_get_level(P_SEAT) == 0);
@@ -191,23 +192,23 @@ void app_main(void)
                 gpio_set_level(LEFT_LAMP, 1);
                 gpio_set_level(RIGHT_LAMP, 1);
             }
-            else if (pot_bits <= POT_OFF) {
+            if (pot_bits <= POT_OFF) {
                 gpio_set_level(LEFT_LAMP, 0);
                 gpio_set_level(RIGHT_LAMP, 0);
             }
             
-            else{
+            else {
                 //AUTO MODE
                 if (light_bits > DAYLIGHT){
                     vTaskDelay(2000/portTICK_PERIOD_MS);
-                    gpio_set_level(LEFT_LAMP, 0);
-                    gpio_set_level(RIGHT_LAMP, 0);
+                    gpio_set_level(LEFT_LAMP, 1);
+                    gpio_set_level(RIGHT_LAMP, 1);
                     prev_state = false;
                 }
                 else if (light_bits < DUSK){
                     vTaskDelay(1000/portTICK_PERIOD_MS);
-                    gpio_set_level (LEFT_LAMP,1);
-                    gpio_set_level (RIGHT_LAMP,1);
+                    gpio_set_level (LEFT_LAMP,0);
+                    gpio_set_level (RIGHT_LAMP,0);
                     prev_state = true;
                 }
                 else {
