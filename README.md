@@ -1,5 +1,5 @@
 
-Automatic Headlight Control System
+Automatic Headlight Control System -----
 Team Members: Niju Khanal and Ellie Nguyen  
 
 This project implements a car ignition and headlight control system that improves safety and ease of use for the driver. 
@@ -16,7 +16,7 @@ The ignition subsystem was modified to allow multiple start attempts, keep the e
 and allow the engine to be stopped by pressing the ignition button again. 
 Automatic/Manual headlight control was then added as part of Project 2.
 
-Ignition (table 1) and Headlight (table 2) Subsystem
+Ignition (table 1) and Headlight (table 2) Subsystems
 
 |                                    Specification                                   |                         Test Process                          |                            Results                             |
 |:----------------------------------------------------------------------------------:|:-------------------------------------------------------------:|:--------------------------------------------------------------:|
