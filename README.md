@@ -2,7 +2,6 @@
 Automatic Headlight Control System
 Team Members: Niju Khanal and Ellie Nguyen  
 
-Project Description
 This project implements a car ignition and headlight control system that improves safety and ease of use for the driver. 
 The ignition subsystem checks whether both the driver and passenger seats are occupied and whether both seatbelts are fastened before allowing the engine to start. 
 If any of these conditions are not met, the system prevents ignition and displays clear messages explaining why the start was blocked.
