@@ -201,18 +201,17 @@ void app_main(void)
                 //AUTO MODE
                 if (light_bits > DAYLIGHT){
                     vTaskDelay(2000/portTICK_PERIOD_MS);
-                    gpio_set_level(LEFT_LAMP, 0);
-                    gpio_set_level(RIGHT_LAMP, 0);
+                    gpio_set_level(LEFT_LAMP, 1);
+                    gpio_set_level(RIGHT_LAMP, 1);
                     prev_state = false;
                 }
                 else if (light_bits < DUSK){
-                    gpio_set_level (LEFT_LAMP,1);
-                    gpio_set_level (RIGHT_LAMP,1);
+                    vTaskDelay(1000/portTICK_PERIOD_MS);
+                    gpio_set_level (LEFT_LAMP,0);
+                    gpio_set_level (RIGHT_LAMP,0);
                     prev_state = true;
                 }
                 else {
-                    vTaskDelay(1000/portTICK_PERIOD_MS);
-
                     gpio_set_level (LEFT_LAMP, prev_state);
                     gpio_set_level (RIGHT_LAMP, prev_state);
                     }
