@@ -30,8 +30,6 @@ Automatic/Manual headlight control was then added as part of Project 2.
 | Keep engine running if passenger unfastens seatbelt or exits                       | Turned OFF passenger seat and seatbelt while engine running   | Engine continued running as expected                           |
 | Stop engine when ignition button is pressed again                                  | Pressed ignition button while engine was running              | Engine stopped and green LED turned off                        |
 
-
-2. Headlight Subsystem
 |                        Specification                        |                      Test Process                       |                   Results                    |
 |:-----------------------------------------------------------:|:-------------------------------------------------------:|:--------------------------------------------:|
 | Turn headlights ON in ON mode                               | Rotated potentiometer to ON position                    | Both yellow low-beam LEDs turned on          |
