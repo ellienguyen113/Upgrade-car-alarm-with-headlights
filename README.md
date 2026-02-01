@@ -32,12 +32,12 @@ Automatic/Manual headlight control was then added as part of Project 2.
 
 
 2. Headlight Subsystem
-|                        Specification                        |                      Test Process                       |                   Results                    |
-|:-----------------------------------------------------------:|:-------------------------------------------------------:|:--------------------------------------------:|
-| Turn headlights ON in ON mode                               | Rotated potentiometer to ON position                    | Both yellow low-beam LEDs turned on          |
-| Turn headlights OFF in OFF mode                             | Rotated potentiometer to OFF position                   | Both yellow low-beam LEDs turned off         |
-| Automatically turn headlights ON in low-light conditions    | Covered light sensor and waited 1 second                | Headlights turned on after the delay         |
-| Automatically turn headlights OFF in bright conditions      | Shined phone flashlight on sensor and waited 2 seconds  | Headlights turned off after the delay        |
-| Maintain previous headlight state between light thresholds  | Adjusted light level between dusk and daylight values   | Headlights remained in their previous state  |
-| Turn off all headlights when engine is off                  | Turned engine off using ignition button                 | All headlights turned off automatically      |
-| Stop engine when ignition button is pressed again           | Pressed ignition button while engine was running        | Engine stopped and green LED turned off      |
+|                        Specification                                              |                      Test Process                       |                   Results                    |
+|:---------------------------------------------------------------------------------:|:-------------------------------------------------------:|:--------------------------------------------:|
+| Turn headlights ON in ON mode                                                     | Rotated potentiometer to ON position                    | Both yellow low-beam LEDs turned on          |
+| Turn headlights OFF in OFF mode                                                   | Rotated potentiometer to OFF position                   | Both yellow low-beam LEDs turned off         |
+| Automatically turn headlights ON in low-light conditions                          | Covered light sensor and waited 1 second                | Headlights turned on after the delay         |
+| Automatically turn headlights OFF in bright conditions                            | Shined phone flashlight on sensor and waited 2 seconds  | Headlights turned off after the delay        |
+| Maintain previous headlight state between light thresholds                        | Adjusted light level between dusk and daylight values   | Headlights remained in their previous state  |
+| Turn off all headlights when engine is off                                        | Turned engine off using ignition button                 | All headlights turned off automatically      |
+| Stop engine when ignition button is pressed again                                 | Pressed ignition button while engine was running        | Engine stopped and green LED turned off      |
