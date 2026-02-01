@@ -11,6 +11,7 @@ In addition, the system includes a headlight control subsystem that allows the d
 In AUTO mode, a light sensor is used to automatically turn the headlights on in low-light conditions and off in bright conditions, with built-in time delays to prevent rapid switching. 
 This behavior is similar to automatic headlight systems used in modern vehicles.
 
+/***Starting Repository ***/
 This project was developed starting from our Project 1 repository. https://github.com/ellienguyen113/Car-Alarm-Upgrade
 The ignition subsystem was modified to allow multiple start attempts, keep the engine running even if seatbelts are unfastened or passengers exit, 
 and allow the engine to be stopped by pressing the ignition button again. 
