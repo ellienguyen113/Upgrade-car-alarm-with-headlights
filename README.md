@@ -18,7 +18,7 @@ The ignition subsystem was modified to allow multiple start attempts, keep the e
 and allow the engine to be stopped by pressing the ignition button again. 
 Automatic/Manual headlight control was then added as part of Project 2.
 
-1. Ignition Sybsystem
+Ignition (table 1) and Headlight (table 2)Sybsystem
 
 |                                    Specification                                   |                         Test Process                          |                            Results                             |
 |:----------------------------------------------------------------------------------:|:-------------------------------------------------------------:|:--------------------------------------------------------------:|
